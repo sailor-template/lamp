@@ -1,0 +1,201 @@
+### Author : BootLabsTech Pvt Ltd.
+### Description: Schema YAML file for GKE Cluster Creation
+
+# This should match the release tag
+publishedVersion: '0.1.1'
+publishedVersionMetadata:
+  releaseNote: >-
+    Initial release.
+    # releaseTypes list is optional.
+    # an existing vulnerability
+    releaseTypes:
+    - Feature
+    - BugFix
+    - Upgrade
+    # If "recommended" is "true", users using older releases are encouraged
+    # to update as soon as possible. This is useful if, for example, this release
+    # fixes a critical issue.
+    recommended: true
+properties:
+  vpc_name:
+    inputType: textfield
+    type: string # UI should render a text box
+    description: name of the vpc # tool tip text
+    title: "Vpc Name" # label in UI
+    required: true # mandatory value
+  vpc_cidir:
+    inputType: textfield
+    type: string # UI should render a text box
+    description: cidir block for vpc. # tool tip text
+    title: "Vpc Cidr" # label in UI
+    required: true # mandatory value
+  public_subnet1_cidir:
+    inputType: textfield
+    type: string # UI should render a text box
+    description: cidir block for subnet # tool tip text
+    title: "Public Subnet1 Cidir" # label in UI
+    required: true # mandatory value
+  subnet1_public :
+    inputType: textfield
+    type: string # UI should render a text box
+    description: name of the subnet1 # tool tip text
+    title: "Public Subnet1 Name" # label in UI
+    required: true # mandatory value
+  availability_zone1 :
+    inputType: textfield
+    type: string
+    description: availability zone for the subnets
+    title: "Availability Zone1"
+    required: true
+  availability_zone2 :
+    inputType: textfield
+    type: string
+    description: availability zone for the subnets
+    title: "Availability Zone2"
+    required: true
+   
+  public_subnet2_cidir:
+    inputType: textfield
+    type: string
+    description: subnet2 cidir block
+    title: "Public Subnet2 Cidir"
+    required: true
+  subnet2_public:
+    inputType: textfield
+    type: string
+    description: name of the subnet2
+    title: "Public Subnet2 Name"
+    required: true
+  security_group_name:
+    inputType: textfield
+    type: string
+    description: name of the security group
+    title: "Security Group Name"
+    required: true
+  form_port:
+    inputType: textfield
+    type: number
+    description: Enter the from port
+    title: "Form Port"
+    required: true
+  to_port:
+    inputType: textfield
+    type: number
+    description: Enter the to port
+    title: "To Port"
+    required: true
+  protocol:
+    inputType: textfield
+    type: string
+    description: Enter the to protocol
+    title: "Protocol"
+    required: true
+  ami:
+    inputType: textfield
+    type: string
+    description: Enter the ami
+    title:  "AMI"
+    required: true
+  instance_type:
+    inputType: textfield
+    type: number
+    description: The type of instance to start
+    title: "Instance Type"
+    required: true
+  volume_size:
+    inputType: textfield
+    type: string
+    description: Whether to create an instance Size of the root volume in gigabytes
+    title: "Volume Size"
+    required: true
+  name:
+    inputType: textfield
+    type: string
+    description: Name to be used on EC2 instance created
+    title: "Name"
+    required: true
+  key_name:
+    inputType: textfield
+    type: string
+    description: Key name of the Key Pair to use for the instance
+    title: "Key Name"
+    required: true
+  region:
+    inputType: textfield
+    type: string
+    description: AWS Region the instance is launched in
+    title: "Region"
+    required: true 
+  subnet1_private:
+    inputType: textfield
+    type: string
+    description: name of the subnet1 
+    title: "Private Subnet1 Name"
+    required: true
+  subnet2_private:
+    inputType: textfield
+    type: string
+    description: name of the subnet2
+    title: "Private Subnet2 Name"
+    required: true
+  private_subnet1_cidir:
+    inputType: textfield
+    type: string
+    description: name of the subnet1 cidir
+    title: "Private Subnet1 Cidir"
+    required: true
+  private_subnet2_cidir:
+    inputType: textfield
+    type: string
+    description: name of the subnet2 cidir
+    title: "Private Subnet2 cidir"
+    required: true
+  allocated_storage:
+    inputType: textfield
+    type: string
+    description: values for allocated storage
+    title: "DB Allocated Storage"
+    required: true
+  db_name:
+    inputType: textfield
+    type: string
+    description: name of the db 
+    title: "DB Name"
+    required: true
+
+  db_engine:
+    inputType: textfield
+    type: string
+    description: name of the db 
+    title: "DB Engine"
+    required: true
+  db_engine_version:
+    inputType: textfield
+    type: string
+    description: engine version type for db
+    title: "DB Engine Version"
+    required: true
+  db_instance_class:
+    inputType: textfield
+    type: string
+    description: instance values for db
+    title: "DB Instance Class"
+    required: true
+  db_user_name:
+    inputType: textfield
+    type: string
+    description: name of the db user
+    title: "DB User Name"
+    required: true
+  db_password:
+    inputType: textfield
+    type: string
+    description: password for the db
+    title: "DB Password"
+    required: true
+  db_max_storage:
+    inputType: textfield
+    type: number
+    description: password for the db
+    title: "DB Max Storage"
+    required: true 
