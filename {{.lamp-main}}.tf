@@ -1,5 +1,5 @@
 resource "aws_vpc" "{{.name}}_my_vpc" {
-  cidr_block = var.{{.name}}_vpc_cidir    
+  cidr_block = var.{{.name}}_vpc_cidr    
 
   tags = {
     Name = var.{{.name}}_vpc_name 
@@ -10,7 +10,7 @@ resource "aws_vpc" "{{.name}}_my_vpc" {
 #---------
 resource "aws_subnet" "{{.name}}_private_subnet1" {
   vpc_id            = aws_vpc.{{.name}}_my_vpc.id
-  cidr_block        = var.{{.name}}_private_subnet1_cidir 
+  cidr_block        = var.{{.name}}_private_subnet1_cidr 
   availability_zone = var.{{.name}}_availability_zone1 
 
   tags = {
@@ -20,7 +20,7 @@ resource "aws_subnet" "{{.name}}_private_subnet1" {
 
 resource "aws_subnet" "{{.name}}_private_subnet2" {
   vpc_id            = aws_vpc.{{.name}}_my_vpc.id
-  cidr_block        = var.{{.name}}_private_subnet2_cidir 
+  cidr_block        = var.{{.name}}_private_subnet2_cidr 
   availability_zone = var.{{.name}}_availability_zone1 
 
   tags = {
@@ -39,17 +39,11 @@ resource "aws_nat_gateway" "{{.name}}_nat_gateway" {
   }
 }
 
-resource "aws_nat_gateway" "{{.name}}_nat_gateway1" {
-  allocation_id = aws_eip.eip.id
-  subnet_id = aws_subnet.{{.name}}_private_subnet2.id
-  tags = {
-    "Name" = "NatGateway2"
-  }
-}
+
 #---------
 resource "aws_subnet" "{{.name}}_public_subnet1" {
   vpc_id            = aws_vpc.{{.name}}_my_vpc.id
-  cidr_block        = var.{{.name}}_public_subnet1_cidir 
+  cidr_block        = var.{{.name}}_public_subnet1_cidr 
   availability_zone = var.{{.name}}_availability_zone1 
 
   tags = {
@@ -58,7 +52,7 @@ resource "aws_subnet" "{{.name}}_public_subnet1" {
 }
 resource "aws_subnet" "{{.name}}_public_subnet2" {
   vpc_id            = aws_vpc.{{.name}}_my_vpc.id
-  cidr_block        = var.{{.name}}_public_subnet2_cidir 
+  cidr_block        = var.{{.name}}_public_subnet2_cidr 
   availability_zone = var.{{.name}}_availability_zone2 
 
   tags = {
@@ -100,8 +94,8 @@ resource "aws_security_group" "{{.name}}_security_group" {
 
   ingress {
     description = "TLS from VPC"
-    from_port   = var.{{.name}}_form_port 
-    to_port     = var.to_port 
+    from_port   = var.{{.name}}_from_port 
+    to_port     = var.{{.name}}_to_port 
     protocol    = var.{{.name}}_protocol 
     cidr_blocks = ["0.0.0.0/0"]
 
@@ -152,6 +146,7 @@ resource "aws_instance" "{{.name}}_web-server" {
     sudo systemctl restart apache2
     sudo mkdir test
     
+
   EOL
   
   root_block_device {
@@ -163,7 +158,7 @@ resource "aws_instance" "{{.name}}_web-server" {
     Name = var.{{.name}}_name
   }
  depends_on = [
-   aws_subnet.public_subnet1
+   aws_subnet.{{.name}}_public_subnet1
  ]
 }
 
@@ -175,9 +170,6 @@ resource "tls_private_key" "{{.name}}_private_key" {
 resource "aws_key_pair" "{{.name}}_generated_key" {
   key_name   = var.{{.name}}_key_name
   public_key = tls_private_key.{{.name}}_private_key.public_key_openssh
-    provisioner "local-exec" { # Create a "myKey.pem" to your computer!!
-    command = "echo '${tls_private_key.private_key.private_key_pem}' > ./key_name.pem"
-    }
   
 }
 
@@ -193,12 +185,12 @@ resource "aws_db_instance" "{{.name}}_default" {
   parameter_group_name = "default.mysql5.7"
   skip_final_snapshot  = true
   max_allocated_storage = var.{{.name}}_db_max_storage
-  vpc_security_group_ids = [aws_security_group.security_group.id]
-  db_subnet_group_name   = aws_db_subnet_group.subnet_group.name
+  vpc_security_group_ids = [aws_security_group.{{.name}}_security_group.id]
+  db_subnet_group_name   = aws_db_subnet_group.{{.name}}_subnet_group.name
 }
 
 resource "aws_db_subnet_group" "{{.name}}_subnet_group" {
   name       = "test"
-  subnet_ids = [aws_subnet.{{.name}}_public_subnet1.id,{{.name}}_aws_subnet.public_subnet2.id]
+  subnet_ids = [aws_subnet.{{.name}}_public_subnet1.id,aws_subnet.{{.name}}_public_subnet2.id]
 }
 

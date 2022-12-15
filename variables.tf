@@ -3,8 +3,8 @@ variable "{{.name}}_vpc_name" {
   type        = string
 }
 
-variable "{{.name}}_vpc_cidir" {
-  description = "cidir block for vpc"
+variable "{{.name}}_vpc_cidr" {
+  description = "cidr block for vpc"
   type        = string
 }
 variable "{{.name}}_subnet1_private" {
@@ -12,12 +12,12 @@ variable "{{.name}}_subnet1_private" {
   type        = string
 }
 
-variable "{{.name}}_private_subnet1_cidir" {
-  description = "name of the subnet1 cidir"
+variable "{{.name}}_private_subnet1_cidr" {
+  description = "name of the subnet1 cidr"
   type        = string
 }
-variable "{{.name}}_private_subnet2_cidir" {
-  description = "name of the subnet2 cidir"
+variable "{{.name}}_private_subnet2_cidr" {
+  description = "name of the subnet2 cidr"
   type        = string
 }
 
@@ -29,8 +29,8 @@ variable "{{.name}}_subnet2_private" {
 
 
 
-variable "{{.name}}_public_subnet1_cidir" {
-  description = "cidir block for subnet"
+variable "{{.name}}_public_subnet1_cidr" {
+  description = "cidr block for subnet"
   type        = string
 }
 variable "{{.name}}_subnet1_public" {
@@ -47,8 +47,8 @@ variable "{{.name}}_availability_zone2" {
   description = "availability zone for the subnets"
   type        = string
 }
-variable "{{.name}}_public_subnet2_cidir" {
-  description = "subnet2 cidir block"
+variable "{{.name}}_public_subnet2_cidr" {
+  description = "subnet2 cidr block"
   type        = string
 
 }
@@ -161,5 +161,5 @@ variable "{{.name}}_db_password" {
 
 variable "{{.name}}_db_max_storage" {
   description = "values for the max storages"
-  type        = string
+  type        = number
 }
