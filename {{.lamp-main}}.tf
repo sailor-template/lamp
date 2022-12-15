@@ -126,11 +126,28 @@ resource "aws_security_group" "{{.name}}_security_group" {
 
 }
 
+data "aws_ami" "ubuntu" {
+
+    most_recent = true
+
+    filter {
+        name   = "name"
+        values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    }
+
+    filter {
+        name = "virtualization-type"
+        values = ["hvm"]
+    }
+
+    owners = ["099720109477"]
+}
+
 
 
 
 resource "aws_instance" "{{.name}}_web-server" {
-  ami                         = var.{{.name}}_ami
+  ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.{{.name}}_instance_type
   associate_public_ip_address = true
   key_name                    = aws_key_pair.{{.name}}_generated_key.key_name

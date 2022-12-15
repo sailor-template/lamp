@@ -14,7 +14,6 @@
 {{.name}}_volume_size           = "{{.volume_size}}"
 {{.name}}_name                  = "{{.name}}"
 {{.name}}_key_name              = "{{.key_name}}"
-{{.name}}_ami                   = "{{.ami}}"
 {{.name}}_region                = "{{.region}}"
 {{.name}}_allocated_storage     = "{{.allocated_storage}}"
 {{.name}}_db_name               = "{{.db_name}}"

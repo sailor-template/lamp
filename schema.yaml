@@ -90,12 +90,7 @@ properties:
     description: Enter the to protocol
     title: "Protocol"
     required: true
-  ami:
-    inputType: textfield
-    type: string
-    description: Enter the ami
-    title:  "AMI"
-    required: true
+
   instance_type:
     inputType: textfield
     type: string

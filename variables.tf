@@ -76,10 +76,7 @@ variable "{{.name}}_protocol" {
   description = "Enter the to protocol"
   type        = string
 }
-variable "{{.name}}_ami" {
-  description = "Enter the ami"
-  type        = string
-}
+
 
 
 variable "{{.name}}_instance_type" {
@@ -163,3 +160,4 @@ variable "{{.name}}_db_max_storage" {
   description = "values for the max storages"
   type        = number
 }
+
