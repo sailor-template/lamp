@@ -62,7 +62,7 @@ variable "{{.name}}_security_group_name" {
   type        = string
 }
 
-variable "{{.name}}_form_port" {
+variable "{{.name}}_from_port" {
   description = "Enter the from port"
   type        = number
 }
@@ -122,42 +122,28 @@ variable "{{.name}}_ec2_rsa_bits" {
 }
 
 
-variable "{{.name}}_allocated_storage" {
-  description = "values for allocated storage"
+
+variable "{{.name}}_lb_listener_protocol" {
+  description = "values for listener protocol"
+  type        = string
+}
+
+
+variable "{{.name}}_lb_listener_port" {
+  description = "values for listener port"
   type        = number
 }
-
-variable "{{.name}}_db_name" {
-  description = "name of the db "
+variable "{{.name}}_lb_protocol" {
+  description = "values for lb protocol"
   type        = string
 }
 
-variable "{{.name}}_db_engine" {
-  description = "engine type for db"
+variable "{{.name}}_lb_target_group_name" {
+  description = "values for lb target group name"
   type        = string
 }
 
-variable "{{.name}}_db_engine_version" {
-  description = "engine version type for db"
+variable "{{.name}}_lb_name" {
+  description = "values for lb name"
   type        = string
 }
-variable "{{.name}}_db_instance_class" {
-  description = "instance values for db"
-  type        = string
-}
-
-variable "{{.name}}_db_user_name" {
-  description = "name of the db user"
-  type        = string
-}
-
-variable "{{.name}}_db_password" {
-  description = "password for the db"
-  type        = string
-}
-
-variable "{{.name}}_db_max_storage" {
-  description = "values for the max storages"
-  type        = number
-}
-

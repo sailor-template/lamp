@@ -72,7 +72,7 @@ properties:
     description: name of the security group
     title: "Security Group Name"
     required: true
-  form_port:
+  from_port:
     inputType: textfield
     type: number
     description: Enter the from port
@@ -121,76 +121,33 @@ properties:
     description: AWS Region the instance is launched in
     title: "Region"
     required: true 
-  subnet1_private:
+  lb_name:
     inputType: textfield
     type: string
-    description: name of the subnet1 
-    title: "Private Subnet1 Name"
+    description: values for lb name
+    title: "LB Name"
     required: true
-  subnet2_private:
+  lb_target_group_name:
     inputType: textfield
     type: string
-    description: name of the subnet2
-    title: "Private Subnet2 Name"
+    description: values for lb target group name
+    title: "LB Target Group Name"
     required: true
-  private_subnet1_cidr:
+  lb_protocol:
     inputType: textfield
     type: string
-    description: name of the subnet1 cidr
-    title: "Private Subnet1 Cidr"
+    description: values for lb protocol
+    title: "LB Protocol"
     required: true
-  private_subnet2_cidr:
-    inputType: textfield
-    type: string
-    description: name of the subnet2 cidr
-    title: "Private Subnet2 cidr"
-    required: true
-  allocated_storage:
+  lb_listener_port:
     inputType: textfield
     type: number
-    description: values for allocated storage
-    title: "DB Allocated Storage"
+    description: values for listener port
+    title: "LB Listener Port"
     required: true
-  db_name:
+  lb_listener_protocol:
     inputType: textfield
     type: string
-    description: name of the db 
-    title: "DB Name"
-    required: true
-
-  db_engine:
-    inputType: textfield
-    type: string
-    description: name of the db 
-    title: "DB Engine"
-    required: true
-  db_engine_version:
-    inputType: textfield
-    type: string
-    description: engine version type for db
-    title: "DB Engine Version"
-    required: true
-  db_instance_class:
-    inputType: textfield
-    type: string
-    description: instance values for db
-    title: "DB Instance Class"
-    required: true
-  db_user_name:
-    inputType: textfield
-    type: string
-    description: name of the db user
-    title: "DB User Name"
-    required: true
-  db_password:
-    inputType: textfield
-    type: string
-    description: password for the db
-    title: "DB Password"
-    required: true
-  db_max_storage:
-    inputType: textfield
-    type: number
-    description: password for the db
-    title: "DB Max Storage"
+    description: values for listener protocol
+    title: "LB Listener Protocol"
     required: true 

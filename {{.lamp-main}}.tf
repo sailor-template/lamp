@@ -27,38 +27,8 @@ resource "aws_subnet" "{{.name}}_private_subnet2" {
     Name = var.{{.name}}_subnet2_private
   }
 }
-resource "aws_eip" "eip" {
-  vpc = true
-}
-
-resource "aws_nat_gateway" "{{.name}}_nat_gateway" {
-  allocation_id = aws_eip.eip.id
-  subnet_id = aws_subnet.{{.name}}_private_subnet1.id
-  tags = {
-    "Name" = "NatGateway1"
-  }
-}
 
 
-#---------
-resource "aws_subnet" "{{.name}}_public_subnet1" {
-  vpc_id            = aws_vpc.{{.name}}_my_vpc.id
-  cidr_block        = var.{{.name}}_public_subnet1_cidr 
-  availability_zone = var.{{.name}}_availability_zone1 
-
-  tags = {
-    Name = var.{{.name}}_subnet1_public
-  }
-}
-resource "aws_subnet" "{{.name}}_public_subnet2" {
-  vpc_id            = aws_vpc.{{.name}}_my_vpc.id
-  cidr_block        = var.{{.name}}_public_subnet2_cidr 
-  availability_zone = var.{{.name}}_availability_zone2 
-
-  tags = {
-    Name = var.{{.name}}_subnet2_public
-  }
-}
 resource "aws_internet_gateway" "{{.name}}_internet-gateway" {
   vpc_id = aws_vpc.{{.name}}_my_vpc.id
   tags = {
@@ -156,15 +126,13 @@ resource "aws_instance" "{{.name}}_web-server" {
   monitoring                  = true
   user_data = <<-EOL
     #!/bin/bash -xe
-    sudo apt update -y
-    sudo apt install apache2 -y
-    sudo apt install -y php
-    sudo apt install -y php-{common,mysql,xml,xmlrpc,curl,gd,imagick,cli,dev,imap,mbstring,opcache,soap,zip,intl}
+    sudo apt update
+    sudo apt install -y apache2
+    sudo apt install -y php7.4 php7.4-mysql php-common php7.4-cli php7.4-json php7.4-common php7.4-opcache libapache2-mod-php7.4
     sudo systemctl restart apache2
-    sudo mkdir test
-    
-
-  EOL
+    sudo apt install mysql-server -y
+    sudo systemctl start mysql.service
+   EOL
   
   root_block_device {
     volume_size           = var.{{.name}}_volume_size
@@ -191,23 +159,40 @@ resource "aws_key_pair" "{{.name}}_generated_key" {
 }
 
 
-resource "aws_db_instance" "{{.name}}_default" {
-  allocated_storage    = var.{{.name}}_allocated_storage
-  db_name              = var.{{.name}}_db_name
-  engine               = var.{{.name}}_db_engine
-  engine_version       = var.{{.name}}_db_engine_version
-  instance_class       = var.{{.name}}_db_instance_class
-  username             = var.{{.name}}_db_user_name
-  password             = var.{{.name}}_db_password
-  parameter_group_name = "default.mysql5.7"
-  skip_final_snapshot  = true
-  max_allocated_storage = var.{{.name}}_db_max_storage
-  vpc_security_group_ids = [aws_security_group.{{.name}}_security_group.id]
-  db_subnet_group_name   = aws_db_subnet_group.{{.name}}_subnet_group.name
+
+
+resource "aws_lb" "{{.name}}_lb" {
+  name               =  var.{{.name}}_lb_name
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.security_group.id]
+  subnets            = [aws_subnet.public_subnet1.id,aws_subnet.public_subnet2.id,]
+
+  enable_deletion_protection = false
+
 }
 
-resource "aws_db_subnet_group" "{{.name}}_subnet_group" {
-  name       = "test"
-  subnet_ids = [aws_subnet.{{.name}}_public_subnet1.id,aws_subnet.{{.name}}_public_subnet2.id]
+resource "aws_lb_target_group" "{{.name}}_target_group" {
+  name     =  var.{{.name}}_lb_target_group_name
+  port     = 80
+  protocol =  var.{{.name}}_lb_protocol
+  vpc_id   = aws_vpc.{{.name}}_my_vpc.id
+}
+
+
+resource "aws_lb_target_group_attachment" "{{.name}}_target_group_attachment" {
+  target_group_arn = aws_lb_target_group.{{.name}}_target_group.arn
+  target_id        = aws_instance.{{.name}}_web-server.id
+  port             = 80
+}
+
+resource "aws_lb_listener" "{{.name}}_listener" {
+  load_balancer_arn = aws_lb.{{.name}}_lb.arn
+  port              = var.{{.name}}_lb_listener_port
+  protocol          = var.{{.name}}_lb_listener_protocol
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.{{.name}}_target_group.id
+  }
 }
 
